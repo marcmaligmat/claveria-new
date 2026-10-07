@@ -1,0 +1,12 @@
+# Claveria municipal website — merge into /etc/caddy/Caddyfile
+claveriamisor.gov.ph, www.claveriamisor.gov.ph {
+	encode gzip zstd
+
+	@www host www.claveriamisor.gov.ph
+	redir @www https://claveriamisor.gov.ph{uri} permanent
+
+	# Next.js (serves pages, /admin, /api including uploaded media)
+	reverse_proxy 127.0.0.1:3001
+
+	header /_next/static/* Cache-Control "public, max-age=31536000, immutable"
+}

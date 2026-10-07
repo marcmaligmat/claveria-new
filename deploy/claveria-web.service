@@ -1,0 +1,23 @@
+[Unit]
+Description=Claveria Municipal Website (Next.js + Payload)
+After=network.target postgresql.service
+
+[Service]
+Type=exec
+User=root
+WorkingDirectory=/opt/claveria
+EnvironmentFile=/opt/claveria/.env
+ExecStart=/opt/claveria/deploy/start.sh
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=3001
+Environment=HOSTNAME=127.0.0.1
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/claveria /var/www/claveria
+
+[Install]
+WantedBy=multi-user.target
