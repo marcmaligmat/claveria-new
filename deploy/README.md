@@ -20,6 +20,7 @@ One-time server setup (run as root on the droplet that hosts paddledraw):
    NODE_ENV=production
    ENV
    ```
+   Optional: `EXTRA_ORIGINS=http://5.223.88.172` (comma-separated) lets the admin log in when the site is reached on an origin other than `NEXT_PUBLIC_SITE_URL`, e.g. by bare IP before DNS exists. Add a matching `http://<ip> { reverse_proxy 127.0.0.1:3001 }` block to the Caddyfile and remove both once DNS is live.
 3. Install the unit and start it:
    ```bash
    cp /opt/claveria/deploy/claveria-web.service /etc/systemd/system/

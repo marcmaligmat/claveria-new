@@ -18,6 +18,15 @@ import { SiteSettings } from './globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Origins allowed to use cookie auth (admin login) and CORS. EXTRA_ORIGINS is a comma-separated
+// list for e.g. serving the site on a bare IP before DNS exists.
+const allowedOrigins = [
+  process.env.NEXT_PUBLIC_SITE_URL,
+  ...(process.env.EXTRA_ORIGINS ?? '').split(','),
+]
+  .map((o) => o?.trim())
+  .filter((o): o is string => Boolean(o))
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -32,6 +41,8 @@ export default buildConfig({
   }),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SITE_URL,
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI || '' },
