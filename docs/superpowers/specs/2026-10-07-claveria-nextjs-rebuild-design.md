@@ -190,8 +190,8 @@ mapped individually; those 404 with a link to the index.
 - Per-page `generateMetadata` sets title (`<page> | Claveria, Misamis Oriental`),
   description, and Open Graph image. `sitemap.ts` and `robots.ts` are
   generated from the collections.
-- Images are served by `next/image` with `remotePatterns` allowing the
-  production host and localhost in development.
+- Images are rendered with `next/image`, allowing the local `/api/media/file/*`
+  path that Payload serves.
 
 ## 8. Dropped from the old site
 
@@ -224,9 +224,10 @@ Mirrors paddledraw:
 - `deploy.sh`: `npm ci`, `npx payload migrate`, `npm run build`, copy
   `public` and `.next/static` into the standalone folder, restart the service,
   check `systemctl is-active`.
-- Caddy site block for `claveriamisor.gov.ph` and `www`: `/media/*` served by
-  `file_server` from `/var/www/claveria/media`, everything else proxied to
-  `127.0.0.1:3001`. Caddy handles TLS automatically, replacing the expired
+- Caddy site block for `claveriamisor.gov.ph` and `www`: everything proxied
+  to `127.0.0.1:3001`. Uploads are stored in `/var/www/claveria/media` but
+  served by Payload at `/api/media/file/*` through Next, so no `file_server`
+  block is needed. Caddy handles TLS automatically, replacing the expired
   certbot setup.
 - Postgres: a `claveria` database and role on the existing server.
 - `.github/workflows/deploy.yml`: on push to `main`, SSH in and run
