@@ -32,7 +32,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
     const el = track.current
     if (!el || el.clientWidth === 0) return
     if (Math.round(el.scrollLeft / el.clientWidth) === index) return
-    el.scrollTo({ left: el.clientWidth * index, behavior: reduced ? 'auto' : 'smooth' })
+    el.scrollTo({ left: el.clientWidth * index, behavior: reduced ? 'instant' : 'smooth' })
   }, [index, reduced])
 
   useEffect(() => () => cancelAnimationFrame(raf.current), [])
@@ -54,7 +54,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div ref={track} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div ref={track} onScroll={onScroll} className={`flex snap-x snap-mandatory overflow-x-auto ${reduced ? '' : 'scroll-smooth'} [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}>
         {slides.map((s, i) => (
           <div key={s.id} className="relative h-[60vh] min-h-[380px] w-full shrink-0 snap-start" aria-hidden={i !== index} inert={i !== index}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
