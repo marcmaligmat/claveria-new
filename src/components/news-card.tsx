@@ -10,7 +10,7 @@ export function NewsCard({ news }: { news: News }) {
     <article className="flex flex-col overflow-hidden rounded-xl border border-navy/10 bg-white shadow-sm transition hover:shadow-md">
       <Link href={`/news/${news.slug}`} className="relative block aspect-[3/2]">
         <MediaImage media={news.coverImage} size="card" fill sizes="(min-width: 768px) 33vw, 100vw" />
-        <span className="absolute left-3 top-3 rounded bg-gold px-2 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+        <span className="absolute left-3 top-3 rounded bg-gold px-2 py-1 text-xs font-semibold uppercase tracking-wide text-ink">
           {newsCategoryLabel(news.category)}
         </span>
       </Link>

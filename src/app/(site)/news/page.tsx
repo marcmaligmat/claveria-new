@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { Container } from '@/components/container'
 import { NewsCard } from '@/components/news-card'
 import { PageHeader } from '@/components/page-header'
 import { Pagination } from '@/components/pagination'
 import { getNewsPage } from '@/lib/data'
+import { parsePage } from '@/lib/format'
 
 export const revalidate = 300
 
@@ -11,8 +13,9 @@ export const metadata: Metadata = { title: 'News', description: 'News and events
 
 export default async function NewsListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page: pageParam } = await searchParams
-  const page = Math.max(1, Number.parseInt(pageParam ?? '1', 10) || 1)
+  const page = parsePage(pageParam)
   const { docs, totalPages } = await getNewsPage(page, 12)
+  if (page > totalPages && totalPages > 0) redirect('/news')
   return (
     <main>
       <PageHeader title="News" crumbs={[{ label: 'News' }]} />

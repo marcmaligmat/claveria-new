@@ -11,7 +11,7 @@ export function DocumentList({ documents, emptyText = 'No documents yet.' }: { d
           <li key={d.id} className="flex items-center justify-between gap-4 p-4">
             <span className="font-medium text-navy">{d.title}</span>
             {href ? (
-              <a href={href} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded bg-gold px-3 py-1.5 text-xs font-semibold text-white hover:bg-gold-dark">
+              <a href={href} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded bg-gold px-3 py-1.5 text-xs font-semibold text-ink hover:bg-gold-dark">
                 Download PDF
               </a>
             ) : null}

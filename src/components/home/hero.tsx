@@ -64,7 +64,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
               <p className="max-w-2xl text-3xl font-bold md:text-5xl">{s.heading}</p>
               {s.subheading ? <p className="mt-3 max-w-xl text-base text-white/85 md:text-lg">{s.subheading}</p> : null}
               {s.ctaLabel && s.ctaHref ? (
-                <Link href={s.ctaHref} className="mt-6 inline-block w-fit rounded-md bg-gold px-5 py-3 text-sm font-semibold text-white hover:bg-gold-dark">
+                <Link href={s.ctaHref} className="mt-6 inline-block w-fit rounded-md bg-gold px-5 py-3 text-sm font-semibold text-ink hover:bg-gold-dark">
                   {s.ctaLabel}
                 </Link>
               ) : null}

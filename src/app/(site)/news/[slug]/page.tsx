@@ -40,7 +40,7 @@ export default async function NewsDetailPage({ params }: Props) {
             <MediaImage media={news.coverImage} size="hero" fill priority sizes="(min-width: 1024px) 800px, 100vw" />
           </div>
           <p className="mt-6 flex flex-wrap gap-3 text-sm text-ink/60">
-            <span className="rounded bg-gold/15 px-2 py-0.5 font-semibold text-gold-dark">{newsCategoryLabel(news.category)}</span>
+            <span className="rounded bg-gold px-2 py-0.5 font-semibold text-ink">{newsCategoryLabel(news.category)}</span>
             {news.publishedAt ? <time dateTime={news.publishedAt}>{formatDate(news.publishedAt)}</time> : null}
             {author ? <span>By {author}</span> : null}
           </p>

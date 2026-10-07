@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { excerpt, formatDate, formatSlug, plainText } from '@/lib/format'
+import { excerpt, formatDate, formatSlug, MAX_PAGE, parsePage, plainText } from '@/lib/format'
 
 describe('formatSlug', () => {
   it('lowercases and hyphenates', () => {
@@ -47,5 +47,22 @@ describe('excerpt', () => {
 describe('formatDate', () => {
   it('formats ISO strings as Mon DD, YYYY', () => {
     expect(formatDate('2026-10-07T03:00:00.000Z')).toBe('Oct 07, 2026')
+  })
+})
+
+describe('parsePage', () => {
+  it('defaults to 1 for missing or invalid input', () => {
+    expect(parsePage(undefined)).toBe(1)
+    expect(parsePage('abc')).toBe(1)
+    expect(parsePage('0')).toBe(1)
+    expect(parsePage('-5')).toBe(1)
+  })
+  it('keeps valid pages', () => {
+    expect(parsePage('3')).toBe(3)
+  })
+  it('clamps huge values to MAX_PAGE', () => {
+    expect(parsePage('99999999999999999999')).toBe(MAX_PAGE)
+    expect(parsePage('1e400')).toBe(1)
+    expect(parsePage(String(MAX_PAGE + 1))).toBe(MAX_PAGE)
   })
 })

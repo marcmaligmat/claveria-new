@@ -49,3 +49,12 @@ export function formatDate(iso: string | Date): string {
     timeZone: 'Asia/Manila',
   }).format(d)
 }
+
+export const MAX_PAGE = 10_000
+
+/** Parses a `?page=` value into an integer in [1, MAX_PAGE]; anything invalid becomes 1. */
+export function parsePage(value: string | undefined): number {
+  const n = Number.parseInt(value ?? '1', 10)
+  if (!Number.isFinite(n) || n < 1) return 1
+  return Math.min(n, MAX_PAGE)
+}
