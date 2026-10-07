@@ -6,3 +6,9 @@ node_modules
 media
 *.tsbuildinfo
 .superpowers
+.pg
+next-env.d.ts
+/test-results/
+/playwright-report/
+/blob-report/
+coverage
