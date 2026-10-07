@@ -23,6 +23,9 @@ npm ci --prefer-offline
 echo "=== Running database migrations ==="
 NODE_ENV=production npm run migrate
 
+echo "=== Type checking (before build, so a type error never wipes the live .next) ==="
+npm run typecheck
+
 echo "=== Building ==="
 NODE_ENV=production npm run build
 cp -r public .next/standalone/public
@@ -30,12 +33,16 @@ cp -r .next/static .next/standalone/.next/static
 
 echo "=== Restarting ==="
 systemctl restart claveria-web
-sleep 3
-if systemctl is-active --quiet claveria-web; then
-  echo "=== claveria-web running ==="
-  curl -fsS -o /dev/null http://127.0.0.1:3001/ && echo "=== health check ok ==="
-else
-  echo "=== claveria-web FAILED ==="
-  journalctl -u claveria-web --no-pager -n 30
-  exit 1
-fi
+
+echo "=== Health check ==="
+for attempt in $(seq 1 20); do
+  if systemctl is-active --quiet claveria-web && curl -fsS -o /dev/null http://127.0.0.1:3001/; then
+    echo "=== health check ok (attempt ${attempt}) ==="
+    exit 0
+  fi
+  sleep 2
+done
+
+echo "=== claveria-web FAILED health check after 20 attempts ==="
+journalctl -u claveria-web --no-pager -n 30
+exit 1

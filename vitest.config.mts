@@ -24,6 +24,7 @@ export default defineConfig({
           testTimeout: 60_000,
           hookTimeout: 120_000,
           env: {
+            NODE_ENV: 'test',
             DATABASE_URI: 'postgresql://claveria:claveria@127.0.0.1:5433/claveria_test',
             PAYLOAD_SECRET: 'test-secret',
             MEDIA_DIR: './.pg/test-media',

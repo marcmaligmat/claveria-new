@@ -11,7 +11,7 @@
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=4096\" next build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "db": "tsx scripts/dev-db.ts",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts",
+    "seed": "cross-env NODE_ENV=development NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",

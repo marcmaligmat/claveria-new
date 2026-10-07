@@ -35,7 +35,9 @@ export default buildConfig({
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI || '' },
-    push: process.env.NODE_ENV !== 'production',
+    // Schema push only in explicit dev/test runs; an unset NODE_ENV (e.g. a production .env
+    // missing it) must never push. Production applies migrations instead.
+    push: process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test',
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
