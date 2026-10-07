@@ -10,7 +10,7 @@ const dirname = path.dirname(__filename)
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    localPatterns: [{ pathname: '/api/media/file/**' }],
+    localPatterns: [{ pathname: '/api/media/file/**' }, { pathname: '/logo.png' }],
   },
   async redirects() {
     return redirects

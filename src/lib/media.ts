@@ -7,11 +7,23 @@ function resolve(media: MediaRef): Media | null {
   return media && typeof media === 'object' ? media : null
 }
 
+// Payload's serverURL makes upload URLs absolute; next/image needs the local path.
+function toRelative(url: string): string {
+  if (!/^https?:\/\//.test(url)) return url
+  try {
+    const u = new URL(url)
+    return u.pathname + u.search
+  } catch {
+    return url
+  }
+}
+
 export function mediaUrl(media: MediaRef, size?: MediaSize): string | null {
   const doc = resolve(media)
   if (!doc) return null
   const sized = size ? doc.sizes?.[size]?.url : null
-  return sized || doc.url || null
+  const url = sized || doc.url || null
+  return url ? toRelative(url) : null
 }
 
 export function mediaAlt(media: MediaRef): string {
