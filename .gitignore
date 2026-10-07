@@ -12,3 +12,5 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 coverage
+AGENTS.md
+CLAUDE.md
