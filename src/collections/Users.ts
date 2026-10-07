@@ -4,7 +4,8 @@ import { authenticated } from '@/access'
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: { useAsTitle: 'name', group: 'Admin' },
-  auth: true,
+  // Staff log in with a username; email stays optional and still works for login.
+  auth: { loginWithUsername: { allowEmailLogin: true, requireEmail: false, requireUsername: false } },
   access: {
     read: authenticated,
     create: authenticated,
