@@ -36,7 +36,8 @@ export default async function HomePage() {
 
   return (
     <main>
-      {show.hero && slides.length > 0 ? <Hero slides={slides} /> : <h1 className="sr-only">Claveria, Misamis Oriental</h1>}
+      <h1 className="sr-only">Claveria, Misamis Oriental</h1>
+      {show.hero && slides.length > 0 ? <Hero slides={slides} /> : null}
       {show.mayor ? <MayorMessage mayor={settings.mayor!} /> : null}
       <LatestNews news={news} />
       <LocalBoards boards={boards} />
