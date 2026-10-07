@@ -28,6 +28,10 @@ describe('media helpers', () => {
     expect(mediaUrl(42)).toBeNull()
     expect(mediaUrl(null)).toBeNull()
   })
+  it('returns absolute Payload urls site-relative', () => {
+    const abs = { ...media, url: 'http://localhost:3000/api/media/file/x.jpg', sizes: undefined } as unknown as Media
+    expect(mediaUrl(abs)).toBe('/api/media/file/x.jpg')
+  })
   it('gives alt text and dimensions', () => {
     expect(mediaAlt(media)).toBe('Town hall')
     expect(mediaAlt(null)).toBe('')
