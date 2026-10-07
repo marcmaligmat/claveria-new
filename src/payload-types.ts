@@ -99,8 +99,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -740,6 +744,194 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  heroSlides?:
+    | {
+        image: number | Media;
+        heading: string;
+        subheading?: string | null;
+        ctaLabel?: string | null;
+        ctaHref?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  mayor?: {
+    name?: string | null;
+    photo?: (number | null) | Media;
+    message?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  visionMission?: {
+    vision?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    mission?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  hotlines?: {
+    pnp?: string | null;
+    responder?: string | null;
+    bfp?: string | null;
+    helplineGroups?:
+      | {
+          title: string;
+          body: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  facts?: {
+    population?: string | null;
+    areaKm2?: string | null;
+    schools?: string | null;
+    hospitals?: string | null;
+    touristVisits?: string | null;
+  };
+  links?: {
+    facebookUrl?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+    agencyLinks?:
+      | {
+          name: string;
+          url: string;
+          logo: number | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  heroSlides?:
+    | T
+    | {
+        image?: T;
+        heading?: T;
+        subheading?: T;
+        ctaLabel?: T;
+        ctaHref?: T;
+        id?: T;
+      };
+  mayor?:
+    | T
+    | {
+        name?: T;
+        photo?: T;
+        message?: T;
+      };
+  visionMission?:
+    | T
+    | {
+        vision?: T;
+        mission?: T;
+      };
+  hotlines?:
+    | T
+    | {
+        pnp?: T;
+        responder?: T;
+        bfp?: T;
+        helplineGroups?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  facts?:
+    | T
+    | {
+        population?: T;
+        areaKm2?: T;
+        schools?: T;
+        hospitals?: T;
+        touristVisits?: T;
+      };
+  links?:
+    | T
+    | {
+        facebookUrl?: T;
+        email?: T;
+        phone?: T;
+        address?: T;
+        agencyLinks?:
+          | T
+          | {
+              name?: T;
+              url?: T;
+              logo?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

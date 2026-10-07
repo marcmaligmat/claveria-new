@@ -13,6 +13,7 @@ import { Media } from './collections/Media'
 import { News } from './collections/News'
 import { Officials } from './collections/Officials'
 import { Users } from './collections/Users'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,7 @@ export default buildConfig({
     meta: { titleSuffix: ' | Claveria LGU Admin' },
   },
   collections: [News, Officials, Departments, Destinations, LocalBoards, Documents, Media, Users],
-  globals: [],
+  globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SITE_URL,
