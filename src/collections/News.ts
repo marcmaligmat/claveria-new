@@ -2,18 +2,20 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionCo
 import { authenticated, authenticatedOrPublished } from '@/access'
 import { slugField } from '@/fields/slug'
 import { NEWS_CATEGORIES } from '@/lib/constants'
-import { revalidatePaths } from '@/lib/revalidate'
+import { revalidateLayout, revalidatePaths } from '@/lib/revalidate'
 import type { News as NewsDoc } from '@/payload-types'
 
 const afterChange: CollectionAfterChangeHook<NewsDoc> = ({ doc, previousDoc, req: { payload, context } }) => {
   const paths = ['/', '/news', '/sitemap.xml', `/news/${doc.slug}`]
   if (previousDoc?.slug && previousDoc.slug !== doc.slug) paths.push(`/news/${previousDoc.slug}`)
   revalidatePaths(paths, context, payload.logger)
+  revalidateLayout(context, payload.logger)
   return doc
 }
 
 const afterDelete: CollectionAfterDeleteHook<NewsDoc> = ({ doc, req: { payload, context } }) => {
   revalidatePaths(['/', '/news', '/sitemap.xml', `/news/${doc.slug}`], context, payload.logger)
+  revalidateLayout(context, payload.logger)
   return doc
 }
 

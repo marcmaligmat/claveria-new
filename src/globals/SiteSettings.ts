@@ -1,9 +1,10 @@
 import type { GlobalAfterChangeHook, GlobalConfig } from 'payload'
 import { anyone, authenticated } from '@/access'
-import { revalidatePaths } from '@/lib/revalidate'
+import { revalidateLayout, revalidatePaths } from '@/lib/revalidate'
 
 const afterChange: GlobalAfterChangeHook = ({ doc, req: { payload, context } }) => {
   revalidatePaths(['/', '/sangguniang-bayan', '/transparency'], context, payload.logger)
+  revalidateLayout(context, payload.logger)
   return doc
 }
 

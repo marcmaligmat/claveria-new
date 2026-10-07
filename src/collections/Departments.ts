@@ -1,7 +1,7 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionConfig } from 'payload'
 import { anyone, authenticated } from '@/access'
 import { slugField } from '@/fields/slug'
-import { revalidatePaths } from '@/lib/revalidate'
+import { revalidateLayout, revalidatePaths } from '@/lib/revalidate'
 import type { Department } from '@/payload-types'
 
 const paths = (slug?: string | null) => ['/', '/departments', '/sitemap.xml', ...(slug ? [`/departments/${slug}`] : [])]
@@ -10,10 +10,12 @@ const afterChange: CollectionAfterChangeHook<Department> = ({ doc, previousDoc, 
   const list = paths(doc.slug)
   if (previousDoc?.slug && previousDoc.slug !== doc.slug) list.push(`/departments/${previousDoc.slug}`)
   revalidatePaths(list, context, payload.logger)
+  revalidateLayout(context, payload.logger)
   return doc
 }
 const afterDelete: CollectionAfterDeleteHook<Department> = ({ doc, req: { payload, context } }) => {
   revalidatePaths(paths(doc.slug), context, payload.logger)
+  revalidateLayout(context, payload.logger)
   return doc
 }
 

@@ -1,10 +1,21 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionConfig } from 'payload'
 import path from 'path'
 import { anyone, authenticated } from '@/access'
+import { revalidateLayout } from '@/lib/revalidate'
 
 const staticDir = process.env.MEDIA_DIR
   ? path.resolve(process.cwd(), process.env.MEDIA_DIR)
   : path.resolve(process.cwd(), 'media')
+
+// Media appears in shared chrome (agency seals, hero slides) — refresh every page.
+const afterChange: CollectionAfterChangeHook = ({ doc, req: { payload, context } }) => {
+  revalidateLayout(context, payload.logger)
+  return doc
+}
+const afterDelete: CollectionAfterDeleteHook = ({ doc, req: { payload, context } }) => {
+  revalidateLayout(context, payload.logger)
+  return doc
+}
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -15,6 +26,7 @@ export const Media: CollectionConfig = {
     update: authenticated,
     delete: authenticated,
   },
+  hooks: { afterChange: [afterChange], afterDelete: [afterDelete] },
   fields: [{ name: 'alt', type: 'text', required: true }],
   upload: {
     staticDir,

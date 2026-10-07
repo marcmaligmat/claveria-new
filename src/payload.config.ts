@@ -26,7 +26,10 @@ export default buildConfig({
   },
   collections: [News, Officials, Departments, Destinations, LocalBoards, Documents, Media, Users],
   globals: [SiteSettings],
-  editor: lexicalEditor(),
+  // RelationshipFeature removed: the public site has no converter for relationship nodes.
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => defaultFeatures.filter((f) => f.key !== 'relationship'),
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SITE_URL,
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },

@@ -4,9 +4,25 @@ import { DESTINATION_LINKS } from '@/lib/nav'
 import { Container } from './container'
 import { MediaImage } from './media-image'
 
+type FooterData = {
+  links: Awaited<ReturnType<typeof getSiteSettings>>['links'] | null
+  departments: Awaited<ReturnType<typeof getDepartments>>
+}
+
+// The footer renders inside the root layout, which (site)/error.tsx cannot catch:
+// a database failure must degrade to a static footer instead of crashing every page.
+async function loadFooterData(): Promise<FooterData> {
+  try {
+    const [settings, departments] = await Promise.all([getSiteSettings(), getDepartments()])
+    return { links: settings.links ?? null, departments }
+  } catch (err) {
+    console.error('SiteFooter: failed to load footer data', err)
+    return { links: null, departments: [] }
+  }
+}
+
 export async function SiteFooter() {
-  const [settings, departments] = await Promise.all([getSiteSettings(), getDepartments()])
-  const links = settings.links
+  const { links, departments } = await loadFooterData()
   return (
     <footer className="mt-16 bg-navy text-white">
       <Container className="grid gap-10 py-14 md:grid-cols-4">
@@ -30,6 +46,9 @@ export async function SiteFooter() {
                 <Link href={`/departments/${d.slug}`} className="text-white/80 hover:text-white">{d.name}</Link>
               </li>
             ))}
+            {departments.length === 0 ? (
+              <li><Link href="/departments" className="text-white/80 hover:text-white">All departments</Link></li>
+            ) : null}
           </ul>
         </div>
         <div>

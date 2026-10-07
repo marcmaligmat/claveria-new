@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
 import { revalidatePath } from 'next/cache'
-import { revalidatePaths } from '@/lib/revalidate'
+import { revalidateLayout, revalidatePaths } from '@/lib/revalidate'
 
 const logger = { info: vi.fn(), warn: vi.fn() }
 
@@ -26,6 +26,28 @@ describe('revalidatePaths', () => {
       throw new Error('static generation store missing')
     })
     expect(() => revalidatePaths(['/'], {}, logger)).not.toThrow()
+    expect(logger.warn).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('revalidateLayout', () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  it('revalidates the root layout', () => {
+    revalidateLayout({}, logger)
+    expect(revalidatePath).toHaveBeenCalledWith('/', 'layout')
+  })
+
+  it('does nothing when the request context disables it', () => {
+    revalidateLayout({ disableRevalidate: true }, logger)
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
+
+  it('logs a warning instead of throwing', () => {
+    vi.mocked(revalidatePath).mockImplementationOnce(() => {
+      throw new Error('no store')
+    })
+    expect(() => revalidateLayout({}, logger)).not.toThrow()
     expect(logger.warn).toHaveBeenCalledTimes(1)
   })
 })
