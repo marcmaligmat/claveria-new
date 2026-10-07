@@ -5,7 +5,13 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Departments } from './collections/Departments'
+import { Destinations } from './collections/Destinations'
+import { Documents } from './collections/Documents'
+import { LocalBoards } from './collections/LocalBoards'
 import { Media } from './collections/Media'
+import { News } from './collections/News'
+import { Officials } from './collections/Officials'
 import { Users } from './collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
@@ -17,7 +23,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: ' | Claveria LGU Admin' },
   },
-  collections: [Users, Media],
+  collections: [News, Officials, Departments, Destinations, LocalBoards, Documents, Media, Users],
   globals: [],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
